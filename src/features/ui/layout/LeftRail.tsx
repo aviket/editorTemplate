@@ -8,13 +8,40 @@
 
 // import { useToolStore } from "../../../store/tool.store";
 import "../../../styles/globals.css";
-export function LeftRail() {
-  // const setTool = useToolStore((s: any) => s.setTool);
+// import { toolMenu } from "../toolMenu.config";
 
+import { useToolStore } from "../../../store/tool.store";
+// import { getTool } from "../../../core/tools/toolRegistry";
+import { getAllTools } from "../../../core/tools/toolRegistry";
+import setupTools from "../toolMenu.config_new";
+
+setupTools();
+
+export function LeftRail() {
+  const setTool = useToolStore((s: any) => s.setTool);
+
+  const tools = getAllTools();
+  // print tools to console to verify they are loaded correctly
+  console.log("Registered tools:", tools);
   return (
     <div className="left-rail">
-      <button>Select</button>
-      <button>Draw</button>
+      {tools.map((tool) => (
+        <button
+          key={tool.id}
+          onClick={() =>
+            setTool(tool.id, getDefaultParams(tool))
+          }
+        >
+          {tool.label}
+        </button>
+      ))}
     </div>
+  );
+}
+function getDefaultParams(tool: any) {
+  if (!tool?.parameters) return {};
+
+  return Object.fromEntries(
+    tool.parameters.map((p: any) => [p.id, p.defaultValue])
   );
 }

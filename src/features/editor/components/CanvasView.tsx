@@ -1,13 +1,21 @@
 // features/editor/components/CanvasView.tsx
 import { useRef, useEffect } from "react";
 import { useToolStore } from "../../../store/tool.store";
+import { getTool } from "../../../core/tools/toolRegistry";
+
 export function CanvasView() {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const tool = useToolStore((s: any) => s.activeTool);
+  const ctxRef = useRef<CanvasRenderingContext2D | null>(null);
+  const activeTool = useToolStore((s: any) => s.activeTool);
+  const params = useToolStore((s: any) => s.params);
   console.log("Active tool:", tool);
   useEffect(() => {
     const canvas = canvasRef.current!;
     const ctx = canvas.getContext("2d")!;
+    ctxRef.current = canvas.getContext("2d")!;
+
+
 
     const resize = () => {
       const rect = canvas.getBoundingClientRect();
@@ -32,6 +40,39 @@ export function CanvasView() {
 
 const handlePointerDown = (e: React.PointerEvent) => {
   console.log("Pointer down", e.clientX, e.clientY);
+   const tool = getTool(activeTool);
+
+  tool?.onPointerDown?.(
+    {
+      ctx: ctxRef.current,
+      params,
+    },
+    e
+  );
+};
+
+const handlePointerMove = (e: React.PointerEvent) => {
+  const tool = getTool(activeTool);
+
+  tool?.onPointerMove?.(
+    {
+      ctx: ctxRef.current,
+      params,
+    },
+    e
+  );
+};
+
+const handlePointerUp = (e: React.PointerEvent) => {
+  const tool = getTool(activeTool);
+
+  tool?.onPointerUp?.(
+    {
+      ctx: ctxRef.current,
+      params,
+    },
+    e
+  );
 };
 
   return (
@@ -44,6 +85,8 @@ const handlePointerDown = (e: React.PointerEvent) => {
         backgroundColor: "#000",
         display: "block", // removes inline spacing issues
       }}
+      onPointerMove={handlePointerMove}
+      onPointerUp={handlePointerUp}
     />
   );
 }
