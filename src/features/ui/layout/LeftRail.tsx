@@ -6,7 +6,9 @@
 // You can find more information about this project at:
 // src/features/ui/layout/LeftRail.tsx
 
-// import { useToolStore } from "../../../store/tool.store";
+
+// src/features/ui/layout/LeftRail.tsx
+
 import "../../../styles/globals.css";
 
 

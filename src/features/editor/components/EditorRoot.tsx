@@ -6,11 +6,13 @@
 // You can find more information about this project at:
 // src/features/editor/components/EditorRoot.tsx
 // EditorRoot.tsx
-import { CanvasView } from "./CanvasView";
+import { CanvasView } from "../../../canvasApp/CanvasView";
+//import { SVGView } from "../../../svgApp/SvgView";
 
 export function EditorRoot() {
   return (
     <div className="editor">
+      {/* <SVGView /> */}
       <CanvasView />
     </div>
   );

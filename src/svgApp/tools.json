@@ -1,0 +1,12 @@
+[
+  {
+    "id": "draw-rect",
+    "label": "Rectangle",
+    "handler": "drawRect",
+    "parameters": [
+      { "id": "width", "type": "number", "defaultValue": 100 },
+      { "id": "height", "type": "number", "defaultValue": 80 },
+      { "id": "color", "type": "string", "defaultValue": "red" }
+    ]
+  } 
+]

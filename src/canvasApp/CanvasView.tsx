@@ -1,7 +1,10 @@
-// features/editor/components/CanvasView.tsx
+// src/features/editor/components/CanvasView.tsx
+// This software may be modified and distributed under the terms
+// of the MIT license. See the LICENSE file for details.
+// Author: Avinash ketkar <
 import { useRef, useEffect } from "react";
-import { useToolStore } from "../../../store/tool.store";
-import { getTool } from "../../../core/tools/toolRegistry";
+import { useToolStore } from "../store/tool.store";
+import { getTool } from "../core/tools/toolRegistry";
 
 export function CanvasView() {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);

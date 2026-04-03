@@ -1,3 +1,7 @@
+// src/core/tools/toolRegistry.ts
+// This software may be modified and distributed under the terms
+// of the MIT license. See the LICENSE file for details.
+// Author: Avinash ketkar <
 import type { ToolDefinition } from "./tool.types";
 
 const registry: Record<string, ToolDefinition> = {};

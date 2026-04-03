@@ -1,3 +1,5 @@
+// put raltive path of current file in comment for reference
+// src/core/tools/tool.types.ts  
 export type ToolParameter =
   | NumberParam
   | StringParam
