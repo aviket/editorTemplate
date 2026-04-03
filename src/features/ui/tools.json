@@ -1,0 +1,29 @@
+[
+  {
+    "id": "draw-rect",
+    "label": "Rectangle",
+    "handler": "drawRect",
+    "parameters": [
+      { "id": "width", "type": "number", "defaultValue": 100 },
+      { "id": "height", "type": "number", "defaultValue": 80 },
+      { "id": "color", "type": "string", "defaultValue": "red" }
+    ]
+  },
+  {
+    "id": "draw-circle",
+    "label": "Circle",
+    "handler": "drawCircle",
+    "parameters": [
+      { "id": "radius", "type": "number", "defaultValue": 40 },
+      {
+        "id": "fill",
+        "type": "select",
+        "defaultValue": "blue",
+        "options": [
+          { "label": "Blue", "value": "blue" },
+          { "label": "Green", "value": "green" }
+        ]
+      }
+    ]
+  }
+]

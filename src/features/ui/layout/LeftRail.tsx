@@ -8,21 +8,21 @@
 
 // import { useToolStore } from "../../../store/tool.store";
 import "../../../styles/globals.css";
-// import { toolMenu } from "../toolMenu.config";
+
 
 import { useToolStore } from "../../../store/tool.store";
 // import { getTool } from "../../../core/tools/toolRegistry";
 import { getAllTools } from "../../../core/tools/toolRegistry";
-import setupTools from "../toolMenu.config_new";
+import { setupToolsFromJSON } from "../load_tools_fromJson";
 
-setupTools();
+setupToolsFromJSON();
 
 export function LeftRail() {
   const setTool = useToolStore((s: any) => s.setTool);
 
   const tools = getAllTools();
   // print tools to console to verify they are loaded correctly
-  console.log("Registered tools:", tools);
+  // console.log("Registered tools:", tools);
   return (
     <div className="left-rail">
       {tools.map((tool) => (
