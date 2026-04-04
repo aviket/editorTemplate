@@ -34,9 +34,9 @@
 .left-rail button {
   width: 40px;
   height: 40px;
-  background: #444;
+  background: white;
   border: none;
-  color: white;
+  color: magenta;
   cursor: pointer;
 }
 
@@ -77,4 +77,32 @@ canvas {
 
 html, body, #root {
   height: 100%;
+}
+
+.floating-menu {
+  background: #333;
+  color: white;
+  padding: 8px;
+  border-radius: 6px;
+  /* min-width: 160px; */
+
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+}
+
+.menu-item {
+  padding: 6px 8px;
+  cursor: pointer;
+}
+
+.menu-item:hover {
+  background: #555;
+}
+
+.menu-arrow {
+  margin-left: auto;
+  opacity: 0.6;
 }

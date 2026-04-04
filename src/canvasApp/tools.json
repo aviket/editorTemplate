@@ -1,27 +1,300 @@
 [
   {
-    "id": "draw-rect",
-    "label": "Rectangle",
-    "handler": "drawRect",
-    "parameters": [
-      { "id": "width", "type": "number", "defaultValue": 100 },
-      { "id": "height", "type": "number", "defaultValue": 80 },
-      { "id": "color", "type": "string", "defaultValue": "red" }
-    ]
-  },
-  {
-    "id": "draw-circle",
-    "label": "Circle",
-    "handler": "drawCircle",
-    "parameters": [
-      { "id": "radius", "type": "number", "defaultValue": 40 },
+    "id": "root",
+    "label": "All Tools",
+    "type": "group",
+    "icon": "circle",
+    "children": [
       {
-        "id": "fill",
-        "type": "select",
-        "defaultValue": "blue",
-        "options": [
-          { "label": "Blue", "value": "blue" },
-          { "label": "Green", "value": "green" }
+        "id": "basic-shapes",
+        "label": "Basic Shapes",
+        "type": "group",
+        "icon": "square",
+        "children": [
+          {
+            "id": "rect-group",
+            "label": "Rectangles",
+            "type": "group",
+            "icon": "circle",
+            "children": [
+              {
+                "id": "rect-basic",
+                "label": "Basic Rectangle",
+                "type": "tool",
+                "icon": "circle",
+                "handler": "drawRect",
+                "parameters": [
+                  { "id": "width", "type": "number", "defaultValue": 100 },
+                  { "id": "height", "type": "number", "defaultValue": 80 }
+                ]
+              },
+              {
+                "id": "rect-rounded",
+                "label": "Rounded Rectangle",
+                "type": "tool",
+                "handler": "drawRect",
+                "icon": "circle",
+                "parameters": [
+                  { "id": "radius", "type": "number", "defaultValue": 10 }
+                ]
+              }
+            ]
+          },
+          {
+            "id": "circle-group",
+            "label": "Circles",
+            "icon": "circle",
+            "type": "group",
+            "children": [
+              {
+                "id": "circle-basic",
+                "label": "Basic Circle",
+                "type": "tool",
+                "icon": "circle",
+                "handler": "drawCircle",
+                "parameters": [
+                  { "id": "radius", "type": "number", "defaultValue": 40 }
+                ]
+              },
+              {
+                "id": "circle-advanced",
+                "label": "Advanced Circle",
+                "type": "group",
+                "icon": "circle",
+                "children": [
+                  {
+                    "id": "circle-gradient",
+                    "label": "Gradient Circle",
+                    "type": "tool",
+                    "icon": "circle",
+                    "handler": "drawCircle",
+                    "parameters": [
+                      { "id": "radius", "type": "number", "defaultValue": 50 },
+                      { "id": "gradient", "type": "string", "defaultValue": "linear" }
+                    ]
+                  },
+                  {
+                    "id": "circle-pattern",
+                    "label": "Pattern Circle",
+                    "type": "tool",
+                    "icon": "circle",
+                    "handler": "drawCircle",
+                    "parameters": [
+                      { "id": "pattern", "type": "string", "defaultValue": "dots" }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+
+      {
+        "id": "lines",
+        "label": "Lines",
+        "type": "group",
+        "icon": "circle",
+        "children": [
+          {
+            "id": "straight-lines",
+            "label": "Straight Lines",
+            "type": "group",
+            "icon": "circle",
+            "children": [
+              {
+                "id": "line-basic",
+                "label": "Basic Line",
+                "type": "tool",
+                "handler": "drawLine",
+                "icon": "circle",
+                "parameters": [
+                  { "id": "lineWidth", "type": "number", "defaultValue": 2 }
+                ]
+              },
+              {
+                "id": "line-dashed",
+                "label": "Dashed Line",
+                "type": "tool",
+                "handler": "drawLine",
+                "icon": "circle",
+                "parameters": [
+                  { "id": "dashLength", "type": "number", "defaultValue": 5 },
+                  { "id": "gapLength", "type": "number", "defaultValue": 3 }
+                ]
+              }
+            ]
+          },
+          {
+            "id": "curves",
+            "label": "Curves",
+            "type": "group",
+            "icon": "circle",
+            "children": [
+              {
+                "id": "bezier-group",
+                "label": "Bezier",
+                "type": "group",
+                "icon": "circle",
+                "children": [
+                  {
+                    "id": "quadratic-bezier",
+                    "label": "Quadratic",
+                    "type": "tool",
+                    "icon": "circle",
+                    "handler": "drawBezier",
+                    "parameters": [
+                      { "id": "controlX", "type": "number", "defaultValue": 50 },
+                      { "id": "controlY", "type": "number", "defaultValue": 50 }
+                    ]
+                  },
+                  {
+                    "id": "cubic-bezier",
+                    "label": "Cubic",
+                    "type": "tool",
+                    "icon": "circle",
+                    "handler": "drawBezier",
+                    "parameters": [
+                      { "id": "control1X", "type": "number", "defaultValue": 30 },
+                      { "id": "control1Y", "type": "number", "defaultValue": 30 },
+                      { "id": "control2X", "type": "number", "defaultValue": 70 },
+                      { "id": "control2Y", "type": "number", "defaultValue": 70 }
+                     ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+
+      {
+        "id": "polygons",
+        "label": "Polygons",
+        "type": "group",
+        "icon": "circle",
+        "children": [
+          {
+            "id": "regular-polygons",
+            "label": "Regular",
+            "type": "group",
+            "icon": "circle",
+            "children": [
+              {
+                "id": "triangle",
+                "label": "Triangle",
+                "type": "tool",
+                "icon": "circle",
+                "handler": "drawPolygon",
+                "parameters": [
+                  { "id": "sides", "type": "number", "defaultValue": 3 }
+                ]
+              },
+              {
+                "id": "pentagon",
+                "label": "Pentagon",
+                "type": "tool",
+                "icon": "circle",
+                "handler": "drawPolygon",
+                "parameters": [
+                  { "id": "sides", "type": "number", "defaultValue": 5 }
+                ]
+              },
+              {
+                "id": "hexagon",
+                "label": "Hexagon",
+                "type": "tool",
+                "icon": "circle",
+                "handler": "drawPolygon",
+                "parameters": [
+                  { "id": "sides", "type": "number", "defaultValue": 6 }
+                ]
+              }
+            ]
+          },
+          {
+            "id": "star-group",
+            "label": "Stars",
+            "type": "group",
+            "icon": "circle",
+            "children": [
+              {
+                "id": "star-5",
+                "label": "5 Point Star",
+                "type": "tool",
+                "icon": "circle",
+                "handler": "drawStar" ,
+                "parameters": [
+                  { "id": "points", "type": "number", "defaultValue": 5 }
+                ]
+              },
+              {
+                "id": "star-8",
+                "label": "8 Point Star",
+                "type": "tool",
+                "icon": "circle",
+                "handler": "drawStar",
+                "parameters": [
+                  { "id": "points", "type": "number", "defaultValue": 8 }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+
+      {
+        "id": "text",
+        "label": "Text",
+        "type": "group",
+        "icon": "circle",
+        "children": [
+          {
+            "id": "basic-text",
+            "label": "Basic Text",
+            "type": "tool",
+            "handler": "drawText" ,
+            "icon": "circle",
+            "parameters": [
+              { "id": "content", "type": "string", "defaultValue": "Hello World" },
+              { "id": "fontSize", "type": "number", "defaultValue": 20 }
+            ]
+
+          },
+          {
+            "id": "fancy-text",
+            "label": "Fancy Text",
+            "type": "group",
+            "icon": "circle",
+            "children": [
+              {
+                "id": "text-shadow",
+                "label": "Shadow Text",
+                "type": "tool",
+                "icon": "circle",
+                "handler": "drawText",
+                "parameters": [
+                  { "id": "content", "type": "string", "defaultValue": "Shadow Text" },
+                  { "id": "fontSize", "type": "number", "defaultValue": 24 },
+                  { "id": "shadowColor", "type": "string", "defaultValue": "#000000" },
+                  { "id": "shadowBlur", "type": "number", "defaultValue": 5 }
+                ]
+              },
+              {
+                "id": "text-outline",
+                "label": "Outline Text",
+                "type": "tool",
+                "icon": "circle",
+                "handler": "drawText",
+                "parameters": [
+                  { "id": "content", "type": "string", "defaultValue": "Outline Text" },
+                  { "id": "fontSize", "type": "number", "defaultValue": 24 },
+                  { "id": "outlineColor", "type": "string", "defaultValue": "#ff0000" },
+                  { "id": "outlineWidth", "type": "number", "defaultValue": 2 }
+                ]
+              }
+            ]
+          }
         ]
       }
     ]

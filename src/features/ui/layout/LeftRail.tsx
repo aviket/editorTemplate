@@ -1,49 +1,154 @@
-// This software may be modified and distributed under the terms
-// of the MIT license. See the LICENSE file for details.
-// Author: Avinash ketkar <avinash.ketkar@gmail.com>
-// Date: April 3, 2026
-// This file is part of the "editor" project.
-// You can find more information about this project at:
-// src/features/ui/layout/LeftRail.tsx
+import { useState } from "react";
+import rawtree from "../../../canvasApp/tools.json";
+import {
+  buildIndex,
+  type ToolNode,
+  getChildren
+} from "../../../canvasApp/jsonTreeutils";
+import { iconMap } from "../../../core/iconMap";
+import { toolHandlers } from "../../../core/tools/toolhandlers";
 
-
-// src/features/ui/layout/LeftRail.tsx
-
-import "../../../styles/globals.css";
-
-
-import { useToolStore } from "../../../store/tool.store";
-// import { getTool } from "../../../core/tools/toolRegistry";
-import { getAllTools } from "../../../core/tools/toolRegistry";
-import { setupToolsFromJSON } from "../load_tools_fromJson";
-
-setupToolsFromJSON();
+const tree: ToolNode = rawtree[0] as ToolNode;
+const { nodeMap } = buildIndex(tree);
 
 export function LeftRail() {
-  const setTool = useToolStore((s: any) => s.setTool);
+  const rootChildren = getChildren(nodeMap, "root");
 
-  const tools = getAllTools();
-  // print tools to console to verify they are loaded correctly
-  // console.log("Registered tools:", tools);
+
+  const [menuStack, setMenuStack] = useState<
+  { node: ToolNode; position: { x: number; y: number } }[]
+>([]);
+ 
+
+  function handleRootHover(
+  node: ToolNode,
+  event: React.MouseEvent<HTMLButtonElement>
+) {
+  if (node.type !== "group") return;
+
+  const rect = event.currentTarget.getBoundingClientRect();
+
+  setMenuStack([
+    {
+      node,
+      position: {
+        x: rect.right + 8,
+        y: rect.top
+      }
+    }
+  ]);
+}
+
+function handleSubHover(
+  level: number,
+  node: ToolNode,
+  event: React.MouseEvent<HTMLButtonElement>
+) {
+  if (node.type !== "group") {
+    // trim deeper levels
+    setMenuStack((prev) => prev.slice(0, level + 1));
+    return;
+  }
+
+  const rect = event.currentTarget.getBoundingClientRect();
+
+  setMenuStack((prev) => {
+    const newStack = prev.slice(0, level + 1);
+
+    newStack.push({
+      node,
+      position: {
+        x: rect.right + 8,
+        y: rect.top
+      }
+    });
+
+    return newStack;
+  });
+}
+
+function handleMenuLeave(
+  e: React.MouseEvent<HTMLDivElement>,
+  level: number
+) {
+  const next = e.relatedTarget as HTMLElement | null;
+
+  // If moving into another floating menu → DO NOTHING
+  if (next && next.closest(".floating-menu")) {
+    return;
+  }
+
+  // Otherwise close this level and deeper
+  setTimeout(() => {
+    setMenuStack((prev) => prev.slice(0, level));
+  }, 120);
+}
+
   return (
     <div className="left-rail">
-      {tools.map((tool) => (
-        <button
-          key={tool.id}
-          onClick={() =>
-            setTool(tool.id, getDefaultParams(tool))
-          }
-        >
-          {tool.label}
-        </button>
-      ))}
-    </div>
-  );
-}
-function getDefaultParams(tool: any) {
-  if (!tool?.parameters) return {};
+{rootChildren.map((node) => (
+  <button
+    key={node.id}
+    title={node.label}
+    onMouseEnter={(e) => handleRootHover(node, e)}
+  >
 
-  return Object.fromEntries(
-    tool.parameters.map((p: any) => [p.id, p.defaultValue])
+    {iconMap[node.icon || ""] ?? node.label[0]}
+                {node.type === "group" && (
+          <span className="menu-arrow">▶</span>
+        )}
+  </button>
+))}
+
+     {menuStack.map((menu, level) => (
+  <div
+    key={menu.node.id}
+    className="floating-menu"
+    style={{
+      position: "fixed",
+      top: menu.position.y,
+      left: menu.position.x
+    }}
+onMouseLeave={(e) => handleMenuLeave(e, level)}
+  >
+    {getChildren(nodeMap, menu.node.id).map((child) => (
+      <button
+        key={child.id}
+        title={child.label}
+        // className="menu-item"
+        onMouseEnter={(e) => handleSubHover(level, child, e)}
+       onClick={() => {
+  if (child.type === "tool" && child.handler) {
+    const handlerFn = toolHandlers[child.handler];
+
+    if (!handlerFn) {
+      console.warn("Handler not found:", child.handler);
+      return;
+    }
+
+    handlerFn(child.parameters); // pass params if needed
+  }
+}}
+      >
+        {/* <span className="menu-icon"> */}
+          {iconMap[child.icon || ""] ?? "•"}
+        {/* </span> */}
+
+        {/* <span className="menu-label">{child.label}</span> */}
+
+        {child.type === "group" && (
+          <span className="menu-arrow">▶</span>
+        )}
+
+        {child.type === "tool" && (
+          <span className="menu-shortcut">⌘</span>
+        )}
+
+        
+      </button>
+    ))}
+  </div>
+))}
+    </div>
   );
 }
